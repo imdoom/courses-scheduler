@@ -55,7 +55,7 @@ const Course = ({course}) => (
 );
 
 const Scoreboard = () => {
-  const [score, setScore] = setState(0);
+  const [score, setScore] = useState(0);
 }
 
 const App = () =>  (
