@@ -1,7 +1,7 @@
 
 ## CS Courses Scheduler
 
-Select courses, greyed out courses have time conflicts with selected courses. 
+Select courses for your term, greyed out courses have time conflicts with the selected courses. 
 Double click to change course timings.
 
 ### Tech Stack
