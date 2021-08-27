@@ -1,16 +1,15 @@
 import React, {useState} from 'react';
 import 'rbx/index.css';
+import '../../App.css';
 import { Button } from 'rbx';
-import timeParts from './times.js'
-import saveCourse from './../../App'
+import timeParts from './times.js';
+import ModalComponent from '../ModalComponent';
+import {db} from '../Firebase';
+
 
 const days = ['M', 'Tu', 'W', 'Th', 'F'];
 
 const terms = { F : 'Fall', W : 'Winter', S : 'Spring'};
-
-const buttonColor = selected => (
-  selected ? 'success' : null
-);
 
 const getCourseNumber = course =>(
   course.id.slice(1,4)
@@ -42,21 +41,30 @@ const hasConflict = (course, selected) => (
   selected.some(selection => courseConflict(course, selection))
 );
 
-const moveCourse = course => {
-    const meets = prompt('Enter new meeting data, in this format:', course.meets);
-    if (!meets) return;
-      const {days} = timeParts(meets);
-    if (days) saveCourse(course, meets); 
-      else moveCourse(course);
-  };
+const moveCourse = (meets, course) => {
+  if(!meets)
+    return;
+  const {days} = timeParts(meets);
+  if (days) {
+    db.child('courses').child(course.id).update({meets})
+    .catch(error => alert(error));
+  }
+};
   
-  const Course = ({ course, state, user }) => (
-    <Button color = { buttonColor(state.selected.includes(course)) }
-            onClick = {() => state.toggle(course)}  
-            onDoubleClick = { user ? () => moveCourse(course) : null }
-            disabled = { hasConflict(course, state.selected) }>
-      { getCourseTerm(course) + 'CS' + getCourseNumber(course) } : {course.title}
-    </Button>
-  );
+const Course = ({ course, state, user}) => {
+  const [modalActive, setModalActive] = useState(false);
+
+  return (
+    <>
+      <Button className = {state.selected.includes(course) ? "selected" : "default-button"}
+              onClick = {() => state.toggle(course)}  
+              onDoubleClick = {user ? () => setModalActive(!modalActive) : null}
+              disabled = { hasConflict(course, state.selected) }>
+        { getCourseTerm(course) + 'CS' + getCourseNumber(course) } : {course.title}
+      </Button>
+      <ModalComponent modalActive={modalActive} setModalActive={setModalActive} course={course} moveCourse={moveCourse}/>
+    </>
+  )
+};
   
-  export default { Course };
+  export default Course;

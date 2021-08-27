@@ -1,67 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import 'rbx/index.css';
-import { Button, Container, Title, Message } from 'rbx';
-import firebase from 'firebase/app';
-import 'firebase/database';
-import 'firebase/auth';
+import './App.css';
+import { Button,Notification, Container, Title, Message, Card } from 'rbx';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import CourseList from './components/CourseList';
 import timeParts from './components/Course/times';
-
-const firebaseConfig = {
-  apiKey: "AIzaSyDSvo8aoqpHCLDqyuyST-qgzr6VSQkqdNI",
-  authDomain: "course-scheduler-700b4.firebaseapp.com",
-  databaseURL: "https://course-scheduler-700b4.firebaseio.com",
-  projectId: "course-scheduler-700b4",
-  storageBucket: "course-scheduler-700b4.appspot.com",
-  messagingSenderId: "234918259193",
-  appId: "1:234918259193:web:d23fced187a43d9a6d3528",
-  measurementId: "G-86T66J114D"
-};
-
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database().ref();
-
-const uiConfig = {
-  signInFlow: 'popup',
-  signInOptions: [
-    firebase.auth.GoogleAuthProvider.PROVIDER_ID
-  ],
-  callbacks: {
-    signInSuccessWithAuthResult: () => false
-  }
-};
-
-const schedule = {
-  "title": "CS Courses for 2018-2019",
-  "courses": [
-    {
-      "id": "F101",
-      "title": "Computer Science: Concepts, Philosophy, and Connections",
-      "meets": "MWF 11:00-11:50"
-    },
-    {
-      "id": "F110",
-      "title": "Intro Programming for non-majors",
-      "meets": "MWF 10:00-10:50"
-    },
-    {
-      "id": "F111",
-      "title": "Fundamentals of Computer Programming I",
-      "meets": "MWF 13:00-13:50"
-    },
-    {
-      "id": "F211",
-      "title": "Fundamentals of Computer Programming II",
-      "meets": "TuTh 12:30-13:50"
-    }
-  ]
-};
-
-const saveCourse = (course, meets) => {
-  db.child('courses').child(course.id).update({meets})
-    .catch(error => alert(error));
-};
+import {db, uiConfig, firebase} from './components/Firebase';
 
 const addCourseTimes = course => ({
   ...course,
@@ -69,13 +13,9 @@ const addCourseTimes = course => ({
 });
 
 const addScheduleTimes = schedule => ({
-  title: schedule.title,
-  courses: Object.values(schedule.courses).map(addCourseTimes)
-});
-
-const Scoreboard = () => {
-  const [score, setScore] = useState(0);
-}
+    title: schedule.title,
+    courses: Object.values(schedule.courses).map(addCourseTimes)
+  })
 
 const Welcome = ({ user }) => (
   <Message color="info">
@@ -104,27 +44,28 @@ const Banner = ({ user, title }) => (
 
 const App = () => {
   const [schedule, setSchedule] = useState({ title: '', courses: [] });
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    const handleData = snap => {
-      if (snap.val()) setSchedule(addScheduleTimes(snap.val()));
-    }
-    db.on('value', handleData, error => alert(error));
-    return () => { db.off('value', handleData); };
-  }, []);
+  const [user, setUser] = useState();
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged(setUser);
   }, []);
 
+  useEffect(() => {
+    const handleData = snap => {
+      if (snap.val()) {
+        setSchedule(addScheduleTimes(snap.val()));
+      }
+    }
+    db.on('value', handleData, error => alert(error));
+    return () => { db.off('value', handleData); };
+  }, []);
+
   return ( 
-    <Container>
-      <Banner title={ schedule.title } />
-      <CourseList courses={ schedule.courses } />
-    </Container>
+    <Notification color="light" id="app">
+      <Banner user={ user } title={ schedule.title } />
+      <CourseList courses={ schedule.courses } user={user}/>
+    </Notification>
   );
 };
 
-export { saveCourse };
 export default App;

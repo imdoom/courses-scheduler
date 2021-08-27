@@ -9,9 +9,7 @@ const buttonColor = selected => (
   selected ? 'success' : null
 );
 
-const getCourseTerm = course => (
-    terms[course.id.charAt(0)]
-);
+const getCourseTerm = course => (terms[course.id.charAt(0)]);
 
 const useSelection = () => {
   const [selected, setSelected] = useState([]);
@@ -32,7 +30,7 @@ const TermSelector = ({ state }) => (
     </Button.Group>
 )
   
-const CourseList = ({ courses, user }) => {
+const CourseList = ({ courses, user}) => {
     const [term, setTerm] = useState('Fall');
     const [selected, toggle] = useSelection();
     const termCourses = courses.filter(course => term === getCourseTerm(course));
