@@ -1,5 +1,5 @@
 #app {
-  margin: 5% 10%;
+  margin: 3% 10%;
   border: 2px solid;
 }
 
@@ -12,4 +12,52 @@
 .default-button, .default-button:hover, .default-button:focus:not(:active), .default-button:focus{
   box-shadow: none;
   border: 2px outset #dbdbdb;
+}
+
+button.firebaseui-idp-button{
+  border : none;
+  box-shadow: none;
+  border: 4px solid #23d160;
+}
+
+.loader,
+.loader:after {
+  border-radius: 50%;
+  width: 10em;
+  height: 10em;
+}
+.loader {
+  margin: 60px auto;
+  font-size: 10px;
+  position: relative;
+  text-indent: -9999em;
+  border-top: 1.1em solid #23d160;
+  border-right: 1.1em solid  #FFF;
+  border-left: 1.1em solid  #FFF;
+  border-bottom: 1.1em solid #23d160;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-animation: load8 1.1s infinite linear;
+  animation: load8 1.1s infinite linear;
+}
+@-webkit-keyframes load8 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes load8 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
 }

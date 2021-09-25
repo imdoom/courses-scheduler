@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import 'rbx/index.css';
 import './App.css';
-import { Button,Notification, Container, Title, Message, Card } from 'rbx';
+import { Button,Notification, Title, Message, Card } from 'rbx';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import CourseList from './components/CourseList';
 import timeParts from './components/Course/times';
@@ -13,9 +13,8 @@ const addCourseTimes = course => ({
 });
 
 const addScheduleTimes = schedule => ({
-    title: schedule.title,
-    courses: Object.values(schedule.courses).map(addCourseTimes)
-  })
+  courses: Object.values(schedule.courses).map(addCourseTimes)
+})
 
 const Welcome = ({ user }) => (
   <Message color="info">
@@ -35,16 +34,17 @@ const SignIn = () => (
   />
 );
 
-const Banner = ({ user, title }) => (
+const Banner = ({ user }) => (
   <React.Fragment>
     { user ? <Welcome user={ user } /> : <SignIn /> }
-    <Title>{ title || '[loading...]' }</Title>
+    <Title>CS Courses Scheduler</Title>
   </React.Fragment>
 );
 
 const App = () => {
-  const [schedule, setSchedule] = useState({ title: '', courses: [] });
+  const [schedule, setSchedule] = useState({ courses: [] });
   const [user, setUser] = useState();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged(setUser);
@@ -54,6 +54,7 @@ const App = () => {
     const handleData = snap => {
       if (snap.val()) {
         setSchedule(addScheduleTimes(snap.val()));
+        setLoading(false);
       }
     }
     db.on('value', handleData, error => alert(error));
@@ -62,8 +63,8 @@ const App = () => {
 
   return ( 
     <Notification color="light" id="app">
-      <Banner user={ user } title={ schedule.title } />
-      <CourseList courses={ schedule.courses } user={user}/>
+      <Banner user={ user } />
+      {loading ? <div className="loader"/> : <CourseList courses={ schedule.courses } user={user}/>}
     </Notification>
   );
 };
