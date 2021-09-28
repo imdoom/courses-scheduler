@@ -56,10 +56,32 @@ const Course = ({ course, state, user}) => {
 
   return (
     <>
-      <Button className = {state.selected.includes(course) ? "selected" : "default-button"}
-              onClick = {() => state.toggle(course)}  
-              onDoubleClick = {user ? () => setModalActive(!modalActive) : null}
-              disabled = { hasConflict(course, state.selected) }>
+      <Button
+        badge = {course.meets}
+        badgeColor = "sucess"
+        size = "medium"
+        className = {state.selected.includes(course) ? "selected" : "default-button"}
+        onMouseOver = {() => {
+          if (!state.selected.includes(course)) {
+            state.toggle(course);
+            state.setHighlighted(course);
+          }
+        }}
+        onMouseLeave = {() => {
+          if (state.highlighted === course) {
+            state.toggle(course);
+          }
+          state.setHighlighted(null);
+        }}
+        onClick = {() => {
+          if (state.highlighted === course) {
+            state.setHighlighted(null);
+          } else {
+            state.toggle(course);
+          }
+        }}
+        onDoubleClick = {user ? () => setModalActive(!modalActive) : null}
+        disabled = { hasConflict(course, state.selected) }>
         { getCourseTerm(course) + 'CS' + getCourseNumber(course) } : {course.title}
       </Button>
       <ModalComponent modalActive={modalActive} setModalActive={setModalActive} course={course} moveCourse={moveCourse}/>

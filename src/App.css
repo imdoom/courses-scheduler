@@ -3,21 +3,79 @@
   border: 2px solid;
 }
 
-.selected, .selected:hover, .selected:focus, .selected:focus:not(:active){
-  background-color: #D0F0C0;
+button.firebaseui-idp-button{
   box-shadow: none;
-  border: 2px outset #dbdbdb;
+  border: 4px solid #3D5B59;
 }
 
+/* app heading and container elements */
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin: 20px 0;
+}
+div.container h1.title {             
+  margin: 0 0;
+  padding: 5px;
+  color: black;
+  background-color: white;
+}
+.align-right {
+  margin-left: auto;
+  font-weight: bold;
+}
+.notification.is-link.align-right {
+  background-color: #FCB5AC;
+  color: #3D5B59;
+}
+
+.message.is-info .message-header {
+  color: white;
+  background-color: #3D5B59;
+}
+.message-header > .button {
+  font-weight: bold;
+  color: #3D5B59;
+}
+
+/* term buttons colors */
+button.term-button {
+  background-color: white;
+  color: #3D5B59;
+  font-weight: bold;
+}
+.term-button-selected, .term-button-selected:focus, .term-button-selected:focus:not(:active), .term-button-selected.is-focused:not(:active){
+  border: 2px solid #3D5B59;
+  box-shadow: none;
+  color: #3D5B59;
+  font-weight: bold;
+  background-color: white;
+}
+.buttons.has-addons .term-button-selected:not(:last-child), .buttons.has-addons .term-button:not(:last-child){
+  margin-right: 10px;
+}
+
+/* courses select and timings color */
+[data-badge]::after {
+  background: #B99095;
+}
 .default-button, .default-button:hover, .default-button:focus:not(:active), .default-button:focus{
   box-shadow: none;
   border: 2px outset #dbdbdb;
 }
-
-button.firebaseui-idp-button{
-  border : none;
+.selected, .selected:hover, .selected:focus, .selected:focus:not(:active){
+  /* #D0F0C0 */
+  background-color: #FCB5AC;
   box-shadow: none;
-  border: 4px solid #23d160;
+  border: 2px outset #FCB5AC;
+}
+
+.modal-card-foot > .button.is-success {
+  background: #B99095;
+}
+.modal-card-foot > .button {
+  border: none;
 }
 
 .loader,
@@ -31,10 +89,10 @@ button.firebaseui-idp-button{
   font-size: 10px;
   position: relative;
   text-indent: -9999em;
-  border-top: 1.1em solid #23d160;
+  border-top: 1.1em solid #B99095;
   border-right: 1.1em solid  #FFF;
   border-left: 1.1em solid  #FFF;
-  border-bottom: 1.1em solid #23d160;
+  border-bottom: 1.1em solid #B99095;
   -webkit-transform: translateZ(0);
   -ms-transform: translateZ(0);
   transform: translateZ(0);
@@ -60,4 +118,11 @@ button.firebaseui-idp-button{
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg);
   }
+}
+
+[data-badge].button:not(.is-clipped)::after {
+  position: relative;
+  right: 40px;
+  top: 25%;
+  z-index: inherit;
 }

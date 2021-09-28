@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import 'rbx/index.css';
 import './App.css';
-import { Button,Notification, Title, Message, Card } from 'rbx';
+import { Button, Notification, Title, Message } from 'rbx';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import CourseList from './components/CourseList';
 import timeParts from './components/Course/times';
@@ -37,7 +37,11 @@ const SignIn = () => (
 const Banner = ({ user }) => (
   <React.Fragment>
     { user ? <Welcome user={ user } /> : <SignIn /> }
-    <Title>CS Courses Scheduler</Title>
+    <div className = "container">
+      <Title className = "cs-courses-scheduler">CS Courses Scheduler</Title>
+      <Notification color = "link" className = "align-right">click to select a course, double click to modify timings</Notification>
+    </div>
+    
   </React.Fragment>
 );
 
