@@ -3,7 +3,7 @@
 
 https://course-scheduler-700b4.web.app/  
 
-Schedules courses with timing conflicts and alters timngs with sign-in access.  
+Schedules courses with various and conflicting time frames to create a schedule for the semeseter and saves the schedule in the student's login. Implemented SSO using google API.
 
 ![Capture](https://user-images.githubusercontent.com/21358353/135154705-bf2946a9-6fb7-43e5-972f-a363325e6b79.PNG)  
 
